@@ -8,6 +8,9 @@ module.exports = (sequilize,Datatype)=>{
         category:{
             type:Datatype.STRING
         },
+        style:{
+            type:Datatype.STRING
+        },
 
 
 

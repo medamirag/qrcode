@@ -26,16 +26,10 @@ db.sequelize.sync({force:false})
     console.log('yes re-sync done');
 })
 //OneToMany form Item
-db.forms.hasMany(db.items,{foreignKey:'form_id',as :'form_item'})
-db.items.belongsTo(db.forms,{
-    foreignKey:'form_id',
-    as: 'form'
-});
+db.forms.hasMany(db.items,{onDelete: 'cascade'})
+db.items.belongsTo(db.forms);
 
 //OneToMany User Form
-db.users.hasMany(db.forms,{foreignKey:'user_id',as :'user_form'})
-db.forms.belongsTo(db.users,{
-    foreignKey:'user_id',
-    as: 'user'
-})
+db.users.hasMany(db.forms)
+db.forms.belongsTo(db.users)
 module.exports = db
