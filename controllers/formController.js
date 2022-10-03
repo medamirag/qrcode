@@ -11,11 +11,45 @@ const User=db.users
 //1.create form
 
 
+// const addForm = async (req,res)=>{ 
+//     if(req.body.id>0)
+//     await Form.destroy({where:{id:req.body.id}})
+//     delete req.body.id
+//     const  form = await Form.create(req.body,{include : [Item,User]})
+//     res.status(200).send(form)
+// }
 const addForm = async (req,res)=>{ 
-    if(req.body.id>0)
-    await Form.destroy({where:{id:req.body.id}})
+    let  form ="";
+    let formId = req.body.id
     delete req.body.id
-    const  form = await Form.create(req.body,{include : [Item,User]})
+
+//     form = await Form.findOne({ where:{id:formId}, include : [{model:Item}]});
+// if(form){
+//     console.log(form);
+//     form = await form.Item.updateAttributes(req.body.items)
+//    console.log(form);
+
+// }
+
+    if(formId>0){
+         //form = await Form.findOne({ where:{id:id}, include : [{model:Item}]});
+       console.log("req.body",req.body);
+        // form= await Form.update(req.body,{where:{id:formId}},{include : [Item]})
+        form= await Form.update({items:[
+            {
+              label: 'amir',
+              type: 'EmailInput',
+              value: 'ag',
+              lat: null,
+              lng: null,
+              createdAt: '2022-10-02T19:44:53.000Z',
+              updatedAt: '2022-10-02T19:44:53.000Z',
+            }
+          ]},{where:{id:formId}},{include : [Item]})
+    }
+    else{
+      form = await Form.create(req.body,{include : [Item,User]})
+    }
     res.status(200).send(form)
 }
 //get All
