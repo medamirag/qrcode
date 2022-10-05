@@ -12,10 +12,10 @@ module.exports = (sequilize,Datatype)=>{
             type:Datatype.STRING
         },
         lat:{
-            type:Datatype.STRING
+            type:Datatype.DOUBLE
         },
         lng:{
-            type:Datatype.STRING
+            type:Datatype.DOUBLE
         }
 
 
