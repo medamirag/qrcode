@@ -19,8 +19,8 @@ const addUser = async (req,res)=>{
 
 //get All
 const getOneUser = async (req,res)=>{
-    let user = await User.findOne({ where:{username:req.body.username,password:req.body.password}, include : [{model:Form,
-        as :'user_form'}]
+    let user = await User.findOne({ where:{username:req.body.username,password:req.body.password}, 
+      
     })
     res.status(200).send(user)
 }

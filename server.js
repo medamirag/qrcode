@@ -15,7 +15,7 @@ app.use('/api/forms',formRouter)
 const userRouter =  require('./routes/userRouter')
 app.use('/api/users',userRouter)
 const itemRouter =  require('./routes/ItemRouter')
-app.use('/api/items',userRouter)
+app.use('/api/items',itemRouter)
 
 
 const PORT = process.env.PORT || 4000
