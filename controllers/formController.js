@@ -3,6 +3,7 @@ console.log(db.forms+"db");
 const Form=db.forms
 const Item=db.items
 const User=db.users
+const sequelize=db.sequelize
 
 
 //main work
@@ -20,21 +21,35 @@ const User=db.users
 // }
 const addForm = async (req,res)=>{ 
     let  form ="";
-    let formId = req.body.id
-    delete req.body.id
-
-//     form = await Form.findOne({ where:{id:formId}, include : [{model:Item}]});
-// if(form){
-//     console.log(form);
-//     form = await form.Item.updateAttributes(req.body.items)
-//    console.log(form);
-
-// }
+    let formId = req.body.id;
+    delete req.body.id;
+    let date;
+    date = new Date();
+    date = date.getUTCFullYear() + '-' +
+        ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+        ('00' + date.getUTCHours()).slice(-2) + ':' + 
+        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+        ('00' + date.getUTCSeconds()).slice(-2);
+    
 
     if(formId>0){
-         //form = await Form.findOne({ where:{id:id}, include : [{model:Item}]});
-       console.log("req.body",req.body);
-        // form= await Form.update(req.body,{where:{id:formId}},{include : [Item]})
+        [results, metadata]  =await sequelize.query(`delete from items where formId=${formId}`);
+
+        for await (const element of req.body.items) {
+            [results, metadata]  =await sequelize.query(`insert into items(label,type,value,lat,lng,createdAt,
+                updatedAt,formId)values(
+                '${element.label}',
+                '${element.type}',
+                '${element.value}',
+                '${element.lat}',
+                '${element.lng}',
+                '${date}',
+                '${date}',
+                '${formId}') 
+                `);
+
+          }
         form= await Form.update({items:[
             {
               label: 'amir',
