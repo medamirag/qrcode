@@ -37,30 +37,31 @@ const addForm = async (req,res)=>{
         [results, metadata]  =await sequelize.query(`delete from items where formId=${formId}`);
 
         for await (const element of req.body.items) {
+            let lat =element.lat||0;
+            let lng =element.lng||0;
+            let value =element.value;
+            if(element.value.split("'")[1]!=undefined){
+                value =element.value.split("'")[0]+"''"+element.value.split("'")[1]
+            }
+            let label =element.label;
+            if(element.label.split("'")[1]!=undefined){
+                label =element.label.split("'")[0]+"''"+element.label.split("'")[1]
+            }
             [results, metadata]  =await sequelize.query(`insert into items(label,type,value,lat,lng,createdAt,
                 updatedAt,formId)values(
-                '${element.label}',
+                '${label}',
                 '${element.type}',
-                '${element.value}',
-                '${element.lat}',
-                '${element.lng}',
+                '${value}',
+                '${lat}',
+                '${lng}',
                 '${date}',
                 '${date}',
                 '${formId}') 
                 `);
 
           }
-        form= await Form.update({items:[
-            {
-              label: 'amir',
-              type: 'EmailInput',
-              value: 'ag',
-              lat: null,
-              lng: null,
-              createdAt: '2022-10-02T19:44:53.000Z',
-              updatedAt: '2022-10-02T19:44:53.000Z',
-            }
-          ]},{where:{id:formId}},{include : [Item]})
+        form= await Form.update(req.body,{where:{id:formId}})
+
     }
     else{
       form = await Form.create(req.body,{include : [Item,User]})

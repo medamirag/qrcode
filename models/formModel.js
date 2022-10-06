@@ -14,6 +14,9 @@ module.exports = (sequilize,Datatype)=>{
         border:{
             type:Datatype.STRING
         },
+        width:{
+            type:Datatype.STRING
+        },
 
 
 
