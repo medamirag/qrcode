@@ -17,6 +17,9 @@ module.exports = (sequilize,Datatype)=>{
         width:{
             type:Datatype.STRING
         },
+        private:{
+            type:Datatype.BOOLEAN
+        },
 
 
 
